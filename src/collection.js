@@ -1,5 +1,3 @@
-const main = document.querySelector("main")
-
 class Collection {
     constructor(collection, collectionAttributes) {
         this.id = collection.id 
@@ -9,29 +7,28 @@ class Collection {
     }
     createCollection () {
         return `
-        <div class="collection-body">
-            <h5 class="collection-title">${this.title}</h5>
+        <div class="collection-body" data-collection-id=${this.id}>
+            <p>${this.title}</p>
+            <button class="collection-release" data-card-id=${this.id}>Delete</button>
+            <button data-collection-id=${this.id}>Add Card</button>
+            <ul></ul>
+            <li>
+                
+            </li>
         </div>`
-
-        //const div = document.createElement("div")
-        //const p = document.createElement("p")
-        //const button = document.createElement("button")
-        //const ul = document.createElement("ul")
-    //
-        //div.setAttribute("class", "card")
-        //div.setAttribute("data-id", this.id)
-        //p.innerHTML = this.title
-        //button.setAttribute("data-collection-id", this.id)
-        //button.innerHTML = "Add Card"
-        //button.addEventListener("click", addCard)
-    //
-        //div.appendChild(p)
-        //div.appendChild(button)
-        //div.appendChild(ul)
-    //
-        //main.append.Child(div)
-        //this.cards.forEach(card => createCard(card))
     }
+    deleteCollection = (e) => {
+        e.preventDefault()
+        const configObj = {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        }
+            fetch(`${Collections_URL}/${e.target.dataset.collectionId}`, configObj)
+            e.target.parentElement.remove()
+        }
     
 }
 

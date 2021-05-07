@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const createCollectionForm = document.querySelector("#create-collection-form")
     createCollectionForm.addEventListener("submit", (e) => createCollectionFormhandler(e))
+
 })
 
 function getCollection() {
@@ -17,7 +18,7 @@ function getCollection() {
     .then(collection => {
         collection.data.forEach(collection => {
             let newCollection = new Collection(collection, collection.attributes)
-           document.querySelector("#collection-container").innerHTML += newCollection.createCollection();
+           document.querySelector("main").innerHTML += newCollection.createCollection();
         })
     })
 }
@@ -40,29 +41,23 @@ function postFetch(title) {
         console.log(collection);
         const collectionData = collection.data 
         let newCollection = new Collection(collectionData, collectionData.attributes)
+        document.querySelector("main").innerHTML += newCollection.createCollection();
     })
 }
 
-//const createCollection = (collectionTitle) => {
-//    const div = document.createElement("div")
-//    const p = document.createElement("p")
-//    const button = document.createElement("button")
-//    const ul = document.createElement("ul")
+//const deleteCollection = (e) => {
+//    e.preventDefault()
 //
-//    div.setAttribute("class", "card")
-//    div.setAttribute("data-id", collectionTitle.id)
-//    p.innerHTML = collectionTitle.title
-//    button.setAttribute("data-collection-id", collectionInfo.id)
-//    button.innerHTML = "Add Card"
-//    button.addEventListener("click", addCard)
-//
-//    div.appendChild(p)
-//    div.appendChild(button)
-//    div.appendChild(ul)
-//
-//    main.appendChild(div)
-//    collectionTitle.cards.forEach(card => createCard(card))
-//}
+//    const configObj = {
+//        method: "DELETE",
+//        headers: {
+//            "Content-Type": "application/json",
+//            "Accept": "application/json"
+//        }
+//    }
+//        fetch(`${Collections_URL}/${e.target.dataset.collectionId}`, configObj)
+//        e.target.parentElement.remove()
+//    }
 
 const createCard = (card) => {
     const ul = document.querySelector(`div[data-id="${card.collection_id}"]`)
