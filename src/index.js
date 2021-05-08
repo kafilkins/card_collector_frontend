@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const createCollectionForm = document.querySelector("#create-collection-form")
     createCollectionForm.addEventListener("submit", (e) => createCollectionFormhandler(e))
-
 })
 
 function getCollection() {
