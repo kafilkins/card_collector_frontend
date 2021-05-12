@@ -1,9 +1,8 @@
 const homePage = "http://127.0.0.1:3000"
 const Collections_URL = `${homePage}/api/v1/collections`
-const Card_URL = `${homePage}/api/v1/card`
+const Cards_URL = `${homePage}/api/v1/cards`
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM is Loaded!");
     getCollection()
 
     
@@ -18,6 +17,9 @@ function getCollection() {
         collection.data.forEach(collection => {
             let newCollection = new Collection(collection, collection.attributes)
            document.querySelector("main").innerHTML += newCollection.createCollection();
+
+           const createCardForm = document.querySelector(`#create-card-form-${newCollection.id}`)
+            createCardForm.addEventListener("submit", (e) => createCardFormhandler(e))
         })
     })
 }
@@ -25,10 +27,18 @@ function getCollection() {
 function createCollectionFormhandler(e) {
     e.preventDefault()
     const collectionTitle = document.querySelector("#collectionTitle").value 
-    postFetch(collectionTitle)
+    collectionFetch(collectionTitle)
 }
 
-function postFetch(title) {
+function createCardFormhandler(e) {
+    e.preventDefault()
+    const cardPlayer = document.querySelector("#cardPlayer").value 
+    const cardDescription = document.querySelector("#cardDescription").value 
+    console.log(cardPlayer)
+    cardFetch(cardPlayer, cardDescription)
+}
+
+function collectionFetch(title) {
     const bodyData = {title}
     fetch(Collections_URL, {
         method: "POST",
@@ -41,6 +51,23 @@ function postFetch(title) {
         const collectionData = collection.data 
         let newCollection = new Collection(collectionData, collectionData.attributes)
         document.querySelector("main").innerHTML += newCollection.createCollection();
+
+        const createCardForm = document.querySelector(`#create-card-form-${newCollection.id}`)
+        createCardForm.addEventListener("submit", (e) => createCardFormhandler(e))
+
+    })
+}
+
+function cardFetch(player, description) {
+    const bodyData = {player, description}
+    fetch(Cards_URL, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(bodyData)
+    })
+    .then(response => response.json())
+    .then(card => {
+        console.log(card);
     })
 }
 
