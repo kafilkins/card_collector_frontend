@@ -1,14 +1,12 @@
 const homePage = "http://127.0.0.1:3000"
 const Collections_URL = `${homePage}/api/v1/collections`
 const Cards_URL = `${homePage}/api/v1/cards`
+const main = document.querySelector("main")
 
-document.addEventListener('DOMContentLoaded', () => {
-    getCollection()
-
+document.addEventListener('DOMContentLoaded', () => getCollection())
     
-    const createCollectionForm = document.querySelector("#create-collection-form")
-    createCollectionForm.addEventListener("submit", (e) => createCollectionFormhandler(e))
-})
+const createCollectionForm = document.querySelector("#create-collection-form")
+createCollectionForm.addEventListener("submit", (e) => createCollectionFormhandler(e))
 
 function getCollection() {
     fetch(Collections_URL)
@@ -16,10 +14,10 @@ function getCollection() {
     .then(collection => {
         collection.data.forEach(collection => {
             let newCollection = new Collection(collection, collection.attributes)
-           document.querySelector("main").innerHTML += newCollection.createCollection();
+           main.append(newCollection.createCollection());
 
-           const createCardForm = document.querySelector(`#create-card-form-${newCollection.id}`)
-            createCardForm.addEventListener("submit", (e) => createCardFormhandler(e))
+           //const createCardForm = document.querySelector(`#create-card-form-${newCollection.id}`)
+            //createCardForm.addEventListener("submit", (e) => createCardFormhandler(e))
         })
     })
 }
@@ -34,7 +32,6 @@ function createCardFormhandler(e) {
     e.preventDefault()
     const cardPlayer = document.querySelector("#cardPlayer").value 
     const cardDescription = document.querySelector("#cardDescription").value 
-    console.log(cardPlayer)
     cardFetch(cardPlayer, cardDescription)
 }
 
@@ -70,20 +67,6 @@ function cardFetch(player, description) {
         console.log(card);
     })
 }
-
-//const deleteCollection = (e) => {
-//    e.preventDefault()
-//
-//    const configObj = {
-//        method: "DELETE",
-//        headers: {
-//            "Content-Type": "application/json",
-//            "Accept": "application/json"
-//        }
-//    }
-//        fetch(`${Collections_URL}/${e.target.dataset.collectionId}`, configObj)
-//        e.target.parentElement.remove()
-//    }
 
 const createCard = (card) => {
     const ul = document.querySelector(`div[data-id="${card.collection_id}"]`)
@@ -128,6 +111,20 @@ const deleteCard = (e) => {
         }
     }
         fetch(`${Card_URL}/${e.target.dataset.cardId}`, configObj)
+        e.target.parentElement.remove()
+    }
+    
+    const deleteCollection = (e) => {
+    e.preventDefault()
+
+    const configObj = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    }
+        fetch(`${Collections_URL}/${e.target.dataset.collectionId}`, configObj)
         e.target.parentElement.remove()
     }
 
