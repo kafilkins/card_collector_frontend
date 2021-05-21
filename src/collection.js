@@ -17,53 +17,56 @@ class Collection {
             const labelDescription = document.createElement('label')
             const inputDescription = document.createElement('input')
             const buttonCard = document.createElement('button')
+            const lineBreak = document.createElement("br")
+            const lineBreak2 = document.createElement("br")
 
             divCollection.className = 'collection-body' 
             divCollection.setAttribute("data-collection-id", this.id)
             pCollection.innerHTML = `${this.title}`
             buttonCollection.className = "collection-release"
-            buttonCollection.setAttribute("data-card-id", this.id)
+            buttonCollection.setAttribute("data-collection-id", this.id)
             buttonCollection.addEventListener("click", deleteCollection)
             buttonCollection.innerHTML = "Delete"
             labelNewCard.value = "New Card"
             divCard.className = "card-form-group"
-            formCard.setAttribute = "create-card-form-${this.id}"
+            divCard.setAttribute("data-card-id", this.id)
+            formCard.id = "create-card-form" 
             labelNewCard.innerHTML = `<h3 class="card-title">New Card</h3>`
-            labelPlayer.setAttribute = "player"
-            labelPlayer.value = "Player"
-            inputPlayer.setAttribute = "Player"
-            labelDescription.setAttribute = "description"
-            labelDescription.value = "Description"
-            inputDescription.attribute = "description"
-            buttonCard.attribute = "btn btn-primary"
-            buttonCard.value = "Create"
+            labelPlayer.innerHTML = "Player: "
+            inputPlayer.type = "player"
+            inputPlayer.id = "cardPlayer"
+            inputPlayer.className = "cardPlayer"
+            labelDescription.innerHTML = "Description: "
+            inputDescription.type = "description"
+            inputDescription.id = "cardDescription"
+            inputDescription.className = "cardDescription"
+            buttonCard.type = "submit"
+            buttonCard.className = "btn btn-primary"
+            buttonCard.innerHTML = "Create"
 
-            divCollection.appendChild(pCollection)
             divCollection.appendChild(buttonCollection)
+            divCollection.appendChild(pCollection)
+            divCollection.appendChild(divCard)
+            divCard.appendChild(formCard)
+            formCard.appendChild(labelNewCard)
+            //divCard.appendChild(labelNewCard)
+            formCard.appendChild(labelPlayer)
+            //divCard.appendChild(labelPlayer)
+            formCard.appendChild(inputPlayer)
+            //divCard.appendChild(inputPlayer)
+            formCard.appendChild(lineBreak)
+            //divCard.appendChild(lineBreak)
+            formCard.appendChild(labelDescription)
+            //divCard.appendChild(labelDescription)
+            formCard.appendChild(inputDescription)
+            //divCard.appendChild(inputDescription)
+            formCard.appendChild(lineBreak2)
+            //divCard.appendChild(lineBreak2)
+            formCard.appendChild(buttonCard)
+            //divCard.appendChild(buttonCard)
 
             main.appendChild(divCollection)
-
-            //return`
-            //<div class="collection-body" data-collection-id=${this.id}>
-            //    <p>${this.title}</p>
-            //    <button class="collection-release" data-card-id=${this.id}>Delete</button>
-            //        <div class="card-form-group">
-            //            <form id="create-card-form-${this.id}">
-            //                <label><h3 class="card-title">New Card</h3></label>
-            //                <label for="player">Player:</label>
-            //                <input type="player" class="card-player" id="cardPlayer"><br>
-            //                <label for="description">Description:</label>
-            //                <input type="description" class="card-description" id="cardDescription"><br>
-            //                <button type="submit" class="btn btn-primary">Create</button>
-            //            </form>
-            //        </div>
-            //    <ul>
-            //        <li>
-            //    
-            //        </li>
-            //    </ul>
-            //</div>`
-        }    
+        }
 }
 
 Collection.all = [];

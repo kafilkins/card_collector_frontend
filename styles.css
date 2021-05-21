@@ -27,7 +27,7 @@ body {
     background-color: #eeeeee;
     height: 250px;
     width: 300px;
-    box-shadow: 10px 10px grey;
+    box-shadow: 10px 10px rgb(109, 2, 2);
     padding: 10px;
     border-radius: 10px;
   }
@@ -52,11 +52,6 @@ body {
   }
   
   button.collection-release {
-    float: right;
-    background-color: #E1332D;
-  }
-
-  button.card-release {
     float: right;
     background-color: #E1332D;
   }
