@@ -12,7 +12,7 @@ function getCollection() {
         collection.data.forEach(collection => {
         let newCollection = new Collection(collection, collection.attributes)
          newCollection.createCollection();
-         createCard();
+         createCard(newCollection);
         })
     })
 }
@@ -40,6 +40,7 @@ function collectionFetch(title) {
         const collectionTitle = collection.data.attributes 
         let newCollection = new Collection(collectionData, collectionTitle)
          newCollection.createCollection();
+         createCard(newCollection)
     })
 }
 
@@ -57,22 +58,21 @@ const deleteCollection = (e) => {
     e.target.parentElement.remove()
 }
 
-function createCard() {
-const createCardForm = document.querySelector('#create-card-form')
+function createCard(newCollection) {
+const createCardForm = document.getElementById(`${newCollection.id}`)
 createCardForm.addEventListener("submit", (e) => createCardFormhandler(e))
 }
 
 function createCardFormhandler(e) {
     e.preventDefault()
-    const cardPlayer = document.querySelector("#cardPlayer").value 
-    const cardDescription = document.querySelector("#cardDescription").value
-    debugger
-    const cardId = document.querySelector("#data-card-id").value
-    cardFetch(cardPlayer, cardDescription, cardId)
+    const cardPlayer = document.querySelector(`input[playerName-id="${e.target.id}"]`).value
+    const cardDescription = document.querySelector(`input[descriptionInfo-id="${e.target.id}"]`).value
+    let id = e.target.id
+    cardFetch(cardPlayer, cardDescription, id)
 }
 
-function cardFetch(player, description, cardId) {
-    const bodyData = {player, description, cardId}
+function cardFetch(player, description, id) {
+    const bodyData = {player, description, id}
     fetch(Cards_URL, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -80,54 +80,16 @@ function cardFetch(player, description, cardId) {
     })
     .then(response => response.json())
     .then(card => {
-        console.log(card);
+        newCard(card);
     })
 }
 
-//const createCard = (card) => {
-//    const ul = document.querySelector(`div[data-id="${card.collection_id}"]`)
-//    const li = document.createElement("li")
-//    const button = document.createElement("button")
-//
-//    li.innerHTML = `${card.player}`
-//    button.setAttribute("class", "release")
-//    button.setAttribute("data-card-id", card.id)
-//    button.innerHTML = "Release"
-//    button.addEventListener("click", deleteCard)
-//
-//    li.appendChild(button)
-//    ul.appendChild(li)
-//}
+function newCard (card) {
+    const cardList = document.querySelector(`ul[card-list-id="${card.collection_id}"]`)
+    const cardLine = document.createElement("li")
 
-//const addCard = (e) => {
-//    e.preventDefault()
-//    const configObj = {
-//        method: "POST",
-//        headers: {
-//            "Content-Type": "application/json",
-//            "Accept": "application/json"
-//        },
-//        body: JSON.stringify({collection_id: e.target.dataset.collectionId})
-//    }
-//    fetch(Card_URL, configObj)
-//    .then(res => res.json())
-//    .then(json => {
-//        createCard(json)
-//    }) 
-//}
+    cardLine.innerHTML = `${card.player} - ${card.description}`
 
-//const deleteCard = (e) => {
-//    e.preventDefault()
-//
-//    const configObj = {
-//        method: "DELETE",
-//        headers: {
-//            "Content-Type": "application/json",
-//            "Accept": "application/json"
-//        }
-//    }
-//        fetch(`${Card_URL}/${e.target.dataset.cardId}`, configObj)
-//        e.target.parentElement.remove()
-//    }
-
+    cardList.appendChild(cardLine)
+}
 
